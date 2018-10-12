@@ -255,7 +255,7 @@ def sendRest(rests):
             actions=[
                 URIAction(label='詳細を表示', uri=url2),
                 URIAction(label='電話', uri=tel2),
-                URIAction(label='経路案内', uri=urlGMap1)
+                URIAction(label='経路案内', uri=urlGMap2)
         ]),        
         CarouselColumn(
             thumbnail_image_url=thumbnail3,
@@ -264,7 +264,7 @@ def sendRest(rests):
             actions=[
                 URIAction(label='詳細を表示', uri=url3),
                 URIAction(label='電話', uri=tel3),
-                URIAction(label='経路案内', uri=urlGMap1)
+                URIAction(label='経路案内', uri=urlGMap3)
         ]),
     ])
     template_message = TemplateSendMessage(
