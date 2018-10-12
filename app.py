@@ -183,6 +183,10 @@ def sendRest(rests):
     url1 = rests[0]['url_mobile']
     thumbnail1 = rests[0]['image_url']['shop_image1']
     tel1 = 'tel:'+rests[0]['tel']
+    urlGMap1 = 'http://maps.google.com/maps'
+         + '?saddr=' + latitude + ',' + longitude
+         + '&daddr=' + rests[0]['latitude'] + ',' + rests[0]['longitude']
+         + '&dirflg=w'
     
     opentime2 = rests[1]['opentime']
     name2 = rests[1]['name']
@@ -190,6 +194,10 @@ def sendRest(rests):
     url2 = rests[1]['url_mobile']
     thumbnail2 = rests[1]['image_url']['shop_image1']
     tel2 = 'tel:'+rests[1]['tel']
+    urlGMap2 = 'http://maps.google.com/maps'
+         + '?saddr=' + latitude + ',' + longitude
+         + '&daddr=' + rests[1]['latitude'] + ',' + rests[1]['longitude']
+         + '&dirflg=w'
 
     opentime3 = rests[2]['opentime']
     name3 = rests[2]['name']
@@ -197,6 +205,10 @@ def sendRest(rests):
     url3 = rests[2]['url_mobile']
     thumbnail3 = rests[2]['image_url']['shop_image1']
     tel3 = 'tel:'+rests[2]['tel']
+    urlGMap3 = 'http://maps.google.com/maps'
+         + '?saddr=' + latitude + ',' + longitude
+         + '&daddr=' + rests[2]['latitude'] + ',' + rests[2]['longitude']
+         + '&dirflg=w'
 
     if(opentime1 == ''):
         opentime1 = '営業時間：情報がありません'
@@ -242,8 +254,8 @@ def sendRest(rests):
             title=name1, 
             actions=[
                 URIAction(label='詳細を表示', uri=url1),
-                URIAction(label='電話', uri=tel1),
-                MessageAction(label='住所を表示', text=address1)
+                URIAction(label='電話する', uri=tel1),
+                URIAction(label='経路案内', uri=urlGMap1)
         ]),
         CarouselColumn(
             thumbnail_image_url=thumbnail2,
@@ -252,7 +264,7 @@ def sendRest(rests):
             actions=[
                 URIAction(label='詳細を表示', uri=url2),
                 URIAction(label='電話', uri=tel2),
-                MessageAction(label='住所を表示', text=address2)
+                URIAction(label='経路案内', uri=urlGMap1)
         ]),        
         CarouselColumn(
             thumbnail_image_url=thumbnail3,
@@ -261,7 +273,7 @@ def sendRest(rests):
             actions=[
                 URIAction(label='詳細を表示', uri=url3),
                 URIAction(label='電話', uri=tel3),
-                MessageAction(label='住所を表示', text=address3)
+                URIAction(label='経路案内', uri=urlGMap1)
         ]),
     ])
     template_message = TemplateSendMessage(
