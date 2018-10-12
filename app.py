@@ -272,4 +272,4 @@ def sendRest(rests):
     return template_message
 
 if __name__ == "__main__":
-    app.run(debug=options.debug, port=options.port)
+    app.run()
