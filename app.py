@@ -435,8 +435,5 @@ if __name__ == "__main__":
     arg_parser.add_argument('-d', '--debug', default=False, help='debug')
     options = arg_parser.parse_args()
 
-    # create tmp dir for download content
-    make_static_tmp_dir()
-
     app.run(debug=options.debug, port=options.port)
 
