@@ -131,7 +131,7 @@ def handle_location_message(event):
         longitude=str(event.message.longitude)
         my = gnavi_api(latitude,longitude)
         rests = do_json(my)
-        template_message = sendRest(rests)
+        template_message = sendRest(rests,latitude,longitude)
 #        print(template_message)
         line_bot_api.reply_message(event.reply_token, template_message)
     except Exception as e:
@@ -170,7 +170,7 @@ def do_json(data):
     rests = parsed_data['rest']
     return rests
 
-def sendRest(rests):
+def sendRest(rests,latitude,longitude):
     # for rest in rests:
     #     carousel_template = CarouselTemplate(columns=[
     #         CarouselColumn(text=rest['opentime'], title=rest['name'], actions=[
