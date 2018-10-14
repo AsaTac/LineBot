@@ -153,6 +153,7 @@ def make_json(rests,latitude,longitude):
     columns = list()
     for rest in rests:
         opentime = rest['opentime']
+        opentime = opentime[0:60]
         name = rest['name']
         address = rest['address']
         url = rest['url_mobile']
@@ -177,11 +178,14 @@ def make_json(rests,latitude,longitude):
                     title=name, 
                     actions=[
                         URIAction(label='詳細を表示', uri=url),
-                        URIAction(label='電話する', uri=tel),
+ #                       URIAction(label='電話する', uri=tel),
                         URIAction(label='経路案内', uri=urlGMap)
                 ])
         columns.append(column)
+        print('title:'+name)
+        print('text:'+opentime)
     carousel_template = CarouselTemplate(columns)
+    print(carousel_template)
     template_message = TemplateSendMessage(
     alt_text='お店が見つかりました', template=carousel_template)
     return template_message
