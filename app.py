@@ -171,49 +171,15 @@ def make_json(rests,latitude,longitude):
         if(thumbnail == ''):
             thumbnail = 'https://example.com/cafe.jpg'
 
-        # column = {
-        #     "actions": [
-        #         {
-        #             "label": "詳細を表示",
-        #             "type": "uri",
-        #             "uri": url
-        #         },
-        #         {
-        #             "label": "電話する",
-        #             "type": "uri",
-        #             "uri": tel
-        #         },
-        #         {
-        #             "label": "経路案内",
-        #             "type": "uri",
-        #             "uri": urlGMap
-        #         },
-        #     ],
-        #     "text": opentime,
-        #     "thumbnailimageurl": thumbnail,
-        #     "title": name
-        # }
-        # columns.append(column)
-        # print(column)
-
-    # template_message = {
-    #     "altText": "お店が見つかりました！",
-    #     "template": {
-    #         "columns": columns,
-    #         "type": "carousel"
-    #     },
-    #     "type": "template"
-    # }
-    # template_message = json.dumps(template_message).encode("utf-8")
         column = CarouselColumn(
-                thumbnail_image_url=thumbnail,
-                text=opentime, 
-                title=name, 
-                actions=[
-                    URIAction(label='詳細を表示', uri=url),
-                    URIAction(label='電話する', uri=tel),
-                    URIAction(label='経路案内', uri=urlGMap)
-            ])
+                    thumbnail_image_url=thumbnail,
+                    text=opentime, 
+                    title=name, 
+                    actions=[
+                        URIAction(label='詳細を表示', uri=url),
+                        URIAction(label='電話する', uri=tel),
+                        URIAction(label='経路案内', uri=urlGMap)
+                ])
         columns.append(column)
     carousel_template = CarouselTemplate(columns)
     template_message = TemplateSendMessage(
