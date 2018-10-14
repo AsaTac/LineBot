@@ -69,6 +69,7 @@ static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
 def hello_world():
     return "hello world!"
 
+
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
@@ -94,17 +95,16 @@ def callback():
 @handler.add(MessageEvent, message=LocationMessage)
 def handle_location_message(event):
     try:
+#        print('start')
         latitude=str(event.message.latitude)
         longitude=str(event.message.longitude)
         my = gnavi_api(latitude,longitude)
-        rests = get_json(my,event)
-        template_message = make_json(rests,latitude,longitude)
+        rests = do_json(my)
+        template_message = sendRest(rests,latitude,longitude)
 #        print(template_message)
-        print('start')
-        reply_message(event, template_message)
+        line_bot_api.reply_message(event.reply_token, template_message)
     except Exception as e:
-        print(e)
-        raise Exception(e)
+        print(Exception)
 
 
 def gnavi_api(latitude,longitude):
@@ -112,14 +112,12 @@ def gnavi_api(latitude,longitude):
     url = "https://api.gnavi.co.jp/RestSearchAPI/v3/"
     search_range = '2'
     category_l = 'RSFST09000'
-    hit_per_page = '5'
     params = urllib.parse.urlencode({
         'keyid': key,
         'latitude': latitude,
         'longitude': longitude,
         'range':search_range,
-        'category_l':category_l,
-        'hit_per_page':hit_per_page
+        'category_l':category_l
     })
     try:
         responce = urllib.request.urlopen(url + '?' + params)
@@ -127,13 +125,9 @@ def gnavi_api(latitude,longitude):
     except:
         raise Exception(u'APIアクセスに失敗しました')
 
-def get_json(data,event):
+def do_json(data):
     parsed_data = json.loads(data)
     if 'error' in parsed_data:
-        reply_message(
-            event,
-            'お店が見つかりませんでした。。。'
-        )
         if 'message' in parsed_data:
             raise Exception(u'{0}'.format(parsed_data['message']))
         else:
@@ -141,96 +135,104 @@ def get_json(data,event):
     total_hit_count = parsed_data.get('total_hit_count', 0)
 
     if total_hit_count < 1:
-        reply_message(
-            event,
-            'お店が見つかりませんでした。。。'
-        )
         raise Exception(u'指定した内容ではヒットしませんでした\nレストランデータが存在しなかったため終了します')
     rests = parsed_data['rest']
     return rests
 
-def make_json(rests,latitude,longitude):
-    columns = list()
-    for rest in rests:
-        opentime = rest['opentime']
-        name = rest['name']
-        address = rest['address']
-        url = rest['url_mobile']
-        thumbnail = rest['image_url']['shop_image1']
-        tel = 'tel:'+rest['tel']
-        urlGMap = 'http://maps.google.com/maps' + '?saddr=' + latitude + ',' + longitude + '&daddr=' + rest['latitude'] + ',' + rest['longitude'] + '&dirflg=w'
-        
-        if(opentime == ''):
-            opentime = '営業時間：情報がありません'
-        if(name == ''):
-            name = '情報がありません'
-        if(address == ''):
-            address = '住所：情報がありません'
-        if(url == ''):
-            url = 'https://line.me'
-        if(thumbnail == ''):
-            thumbnail = 'https://example.com/cafe.jpg'
+def sendRest(rests,latitude,longitude):
+    opentime1 = rests[0]['opentime']
+    name1 = rests[0]['name']
+    address1 = rests[0]['address']
+    url1 = rests[0]['url_mobile']
+    thumbnail1 = rests[0]['image_url']['shop_image1']
+    tel1 = 'tel:'+rests[0]['tel']
+    urlGMap1 = 'http://maps.google.com/maps' + '?saddr=' + latitude + ',' + longitude + '&daddr=' + rests[0]['latitude'] + ',' + rests[0]['longitude'] + '&dirflg=w'
+    
+    opentime2 = rests[1]['opentime']
+    name2 = rests[1]['name']
+    address2 = rests[1]['address']
+    url2 = rests[1]['url_mobile']
+    thumbnail2 = rests[1]['image_url']['shop_image1']
+    tel2 = 'tel:'+rests[1]['tel']
+    urlGMap2 = 'http://maps.google.com/maps'+ '?saddr=' + latitude + ',' + longitude+ '&daddr=' + rests[1]['latitude'] + ',' + rests[1]['longitude'] + '&dirflg=w'
 
-        # column = {
-        #     "actions": [
-        #         {
-        #             "label": "詳細を表示",
-        #             "type": "uri",
-        #             "uri": url
-        #         },
-        #         {
-        #             "label": "電話する",
-        #             "type": "uri",
-        #             "uri": tel
-        #         },
-        #         {
-        #             "label": "経路案内",
-        #             "type": "uri",
-        #             "uri": urlGMap
-        #         },
-        #     ],
-        #     "text": opentime,
-        #     "thumbnailimageurl": thumbnail,
-        #     "title": name
-        # }
-        # columns.append(column)
-        # print(column)
+    opentime3 = rests[2]['opentime']
+    name3 = rests[2]['name']
+    address3 = rests[2]['address']
+    url3 = rests[2]['url_mobile']
+    thumbnail3 = rests[2]['image_url']['shop_image1']
+    tel3 = 'tel:'+rests[2]['tel']
+    urlGMap3 = 'http://maps.google.com/maps' + '?saddr=' + latitude + ',' + longitude + '&daddr=' + rests[2]['latitude'] + ',' + rests[2]['longitude'] + '&dirflg=w'
 
-    # template_message = {
-    #     "altText": "お店が見つかりました！",
-    #     "template": {
-    #         "columns": columns,
-    #         "type": "carousel"
-    #     },
-    #     "type": "template"
-    # }
-    # template_message = json.dumps(template_message).encode("utf-8")
-        column = CarouselColumn(
-                thumbnail_image_url=thumbnail,
-                text=opentime, 
-                title=name, 
-                actions=[
-                    URIAction(label='詳細を表示', uri=url),
-                    URIAction(label='電話する', uri=tel),
-                    URIAction(label='経路案内', uri=urlGMap)
-            ])
-        columns.append(column)
-    carousel_template = CarouselTemplate(columns)
+    if(opentime1 == ''):
+        opentime1 = '営業時間：情報がありません'
+    if(name1 == ''):
+        name1 = '情報がありません'
+    if(address1 == ''):
+        address1 = '住所：情報がありません'
+    if(url1 == ''):
+        url1 = 'https://line.me'
+    if(thumbnail1 == ''):
+        thumbnail1 = 'https://example.com/cafe.jpg'
+
+
+    if(opentime2 == ''):
+        opentime2 = '営業時間：情報がありません'
+    if(name2 == ''):
+        name2 = '情報がありません'
+    if(address2 == ''):
+        address2 = '住所：情報がありません'    
+    if(url2 == ''):
+        url2 = 'https://line.me'
+    if(thumbnail2 == ''):
+        thumbnail2 = 'https://example.com/cafe.jpg'
+
+
+    if(opentime3 == ''):
+        opentime3 = '営業時間：情報がありません'
+    if(name3 == ''):
+        name3 = '情報がありません'
+    if(address3 == ''):
+        address3 = '住所：情報がありません'
+    if(url3 == ''):
+        url3 = 'https://line.me'
+    if(thumbnail3 == ''):
+        thumbnail3 = 'https://example.com/cafe.jpg'
+    print(tel1)
+    print(tel2)
+    print(tel3)
+    carousel_template = CarouselTemplate(columns=[
+        CarouselColumn(
+            thumbnail_image_url=thumbnail1,
+            text=opentime1, 
+            title=name1, 
+            actions=[
+                URIAction(label='詳細を表示', uri=url1),
+                URIAction(label='電話する', uri=tel1),
+                URIAction(label='経路案内', uri=urlGMap1)
+        ]),
+        CarouselColumn(
+            thumbnail_image_url=thumbnail2,
+            text=opentime2, 
+            title=name2, 
+            actions=[
+                URIAction(label='詳細を表示', uri=url2),
+                URIAction(label='電話する', uri=tel2),
+                URIAction(label='経路案内', uri=urlGMap2)
+        ]),        
+        CarouselColumn(
+            thumbnail_image_url=thumbnail3,
+            text=opentime3, 
+            title=name3, 
+            actions=[
+                URIAction(label='詳細を表示', uri=url3),
+                URIAction(label='電話する', uri=tel3),
+                URIAction(label='経路案内', uri=urlGMap3)
+        ]),
+    ])
     template_message = TemplateSendMessage(
-    alt_text='お店が見つかりました', template=carousel_template)
+        alt_text='お店が見つかりました', template=carousel_template)
     return template_message
 
-def reply_message(event, messages):
-    line_bot_api.reply_message(
-        event.reply_token,
-        messages=messages,
-    )
-
 if __name__ == "__main__":
-    arg_parser = ArgumentParser(
-        usage='Usage: python ' + __file__ + ' [--port <port>] [--help]'
-    )
-    arg_parser.add_argument('-p', '--port', type=int, default=5000, help='port')
-    arg_parser.add_argument('-d', '--debug', default=False, help='debug')
-    options = arg_parser.parse_args()
-    app.run(debug=options.debug, port=options.port)
+    app.run()
