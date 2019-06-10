@@ -96,8 +96,8 @@ def handle_location_message(event):
     try:
         latitude=str(event.message.latitude)
         longitude=str(event.message.longitude)
-		print(latitude)
-		print(longitude)
+        print(latitude)
+        print(longitude)
         my = gnavi_api(latitude,longitude)
         rests = get_json(my,event)
         template_message = make_json(rests,latitude,longitude)
