@@ -124,7 +124,7 @@ def gnavi_api(latitude,longitude):
         'hit_per_page':hit_per_page
     })
     try:
-        print(paramas)
+        print(params)
         responce = urllib.request.urlopen(url + '?' + params)
         return responce.read()
     except:
