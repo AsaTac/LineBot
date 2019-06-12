@@ -110,7 +110,7 @@ def handle_location_message(event):
 
 
 def gnavi_api(latitude,longitude):
-    key = '29561ac6d0a98f10b3d9d21a2292282d'
+    key = '6cc3ade918a9b1b0e2b8afdaf4bbfb0d'
     url = "https://api.gnavi.co.jp/RestSearchAPI/v3/"
     search_range = '2'
     category_l = 'RSFST09000'
