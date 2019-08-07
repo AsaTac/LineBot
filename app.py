@@ -55,7 +55,7 @@ def hello_world():
     return "hello"
 
 @app.route("/hello")
-def hello_world():
+def hello():
     return render_template("hello.html")
 
 @app.route("/report1")
