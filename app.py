@@ -54,6 +54,13 @@ app = Flask(__name__)
 def hello_world():
     return render_template("hello.html")
 
+@app.route("/report1")
+def report1():
+    return render_template("report1.html")
+
+@app.route("/report2")
+def report2():
+    return render_template("report2.html")
 
 if __name__ == "__main__":
     arg_parser = ArgumentParser(
