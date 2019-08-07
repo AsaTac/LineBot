@@ -52,12 +52,8 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello_world():
-    title = "ようこそ"
-    message = ""
-    # index.html をレンダリングする
-    return render_template('index.html',
-                           message=message, title=title)
-#    return '<img src="https://kirinwiki.com/wiki/lib/exe/fetch.php/py:tenagazaru.jpg" title="条件抽出画面">'
+    return render_template("hello.html")
+
 
 if __name__ == "__main__":
     arg_parser = ArgumentParser(
