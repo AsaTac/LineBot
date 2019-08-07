@@ -67,7 +67,7 @@ static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
 
 @app.route("/")
 def hello_world():
-    return '<img src="./IMG_0898.JPG" title="条件抽出画面">'
+    return '<img src="https://kirinwiki.com/wiki/lib/exe/fetch.php/py:tenagazaru.jpg" title="条件抽出画面">'
 
 @app.route("/callback", methods=['POST'])
 def callback():
