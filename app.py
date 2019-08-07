@@ -67,7 +67,7 @@ static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
 
 @app.route("/")
 def hello_world():
-    return '<h1>hello_world</h1>'
+    return '<img src="hello_world">'
 
 @app.route("/callback", methods=['POST'])
 def callback():
