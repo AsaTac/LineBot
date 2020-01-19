@@ -54,7 +54,7 @@ app = Flask(__name__)
 #channel_secret = os.getenv('LINE_CHANNEL_SECRET', None)
 #channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN', None)
 channel_secret = '604df2beda2a8129004e9c5f36882e0f'
-channel_access_token = 'U34ef90d894bb61c0801b8a51700e2c47'
+channel_access_token = "I1raa+JJQQYytxm85Jq+y/BfhJD4Hz1rcquhwI1fx2EQDtXDyTmUJLxT+92adFOToMivfTATUY9rv4iPX60Eir1GazPdQyHrKuvGwkB7TyxO0UunNIbsFKoDmFfnBBtTOyrHpnEBvWJLe2ZzldGiUgdB04t89/1O/w1cDnyilFU="
 
 
 if channel_secret is None:
@@ -119,7 +119,7 @@ def handle_location_message(event):
 
 
 def gnavi_api(latitude,longitude):
-    key = '6cc3ade918a9b1b0e2b8afdaf4bbfb0d'
+    key = '295c04fa33245bfa90dcae3a0e9a655b'
     url = "https://api.gnavi.co.jp/RestSearchAPI/v3/"
     search_range = '2'
     category_l = 'RSFST09000'
@@ -135,6 +135,7 @@ def gnavi_api(latitude,longitude):
     try:
         print(params)
         responce = urllib.request.urlopen(url + '?' + params)
+        #responce = urllib.request.urlopen("https://api.gnavi.co.jp/RestSearchAPI/v3/?keyid=295c04fa33245bfa90dcae3a0e9a655b&category_l=RSFST09000&hit_per_page=5&id=")
         return responce.read()
     except:
         raise Exception(u'APIアクセスに失敗しました')
